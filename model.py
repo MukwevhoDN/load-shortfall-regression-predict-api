@@ -78,7 +78,7 @@ train_df_clean.Seville_pressure = train_df_clean.Seville_pressure.str.extract('(
 train_df['Valencia_wind_deg'] = train_df['Valencia_wind_deg'].str.extract('(\\d+)').astype(int)
     # ------------------------------------------------------------------------
 
-    return predict_vector
+    return train_df
 
 def load_model(path_to_model:str):
     """Adapter function to load our pretrained model into memory.
