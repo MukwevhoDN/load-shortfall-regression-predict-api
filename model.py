@@ -58,7 +58,24 @@ def _preprocess_data(data):
     # ---------------------------------------------------------------
 
     # ----------- Replace this code with your own preprocessing steps --------
-    predict_vector = feature_vector_df[['Madrid_wind_speed','Bilbao_rain_1h','Valencia_wind_speed']]
+   # Impute missing values with the mode calculate above
+train_df['Valencia_pressure'].fillna(max(mode_pressure), inplace=True)
+
+# Create new features in test_df for year, month, week, day, and hour 
+train_df['time'] = pd.to_datetime(train_df['time']) # Convert time feature to datetime data type
+
+# Extract year, month, day, hour, and week components
+train_df['year'] = train_df['time'].dt.year.astype(int)
+train_df['month'] = train_df['time'].dt.month
+train_df['day'] = train_df['time'].dt.day
+train_df['hour'] = train_df['time'].dt.hour
+train_df['week'] = train_df['time'].dt.isocalendar().week
+
+#Convert all seville pressure non-numeric values to numeric
+train_df_clean.Seville_pressure = train_df_clean.Seville_pressure.str.extract('(\\d+)')  
+
+#Convert all valencia wind deg non-numeric values to numeric
+train_df['Valencia_wind_deg'] = train_df['Valencia_wind_deg'].str.extract('(\\d+)').astype(int)
     # ------------------------------------------------------------------------
 
     return predict_vector
